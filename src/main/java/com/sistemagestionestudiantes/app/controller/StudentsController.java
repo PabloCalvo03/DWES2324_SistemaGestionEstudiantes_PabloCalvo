@@ -23,7 +23,7 @@ public class StudentsController {
 	@Autowired
 	private StudentMockUpRepository studentRepository;
 	
-	// Endpoint para listar todos los estudiantes
+	// Endpoint para listar todos los estudiantes, ademas se muestra la edad media
 	@GetMapping("listStudents")
 	public String listStudents(Model model) {
 		List<Student> students = studentRepository.getAllStudents();
@@ -57,6 +57,9 @@ public class StudentsController {
 		return "redirect:/listStudents";
 	}
 	
+	// Endpoint para realizar la busqueda por nombre, sirve tambien si comienzas a escribir la P de Pablo,
+	// por ejemplo ya que busca los estudiantes que empiezen por ahi, ademas se muestra la edad media de 
+	// los resultados
 	@GetMapping("/searchStudentsByName")
 	public String searchStudentsByName(@RequestParam("name") String name, Model model) {
 	    List<Student> searchResults = studentRepository.findStudentsByName(name);
@@ -72,6 +75,7 @@ public class StudentsController {
 	    return "listStudents"; 
 	}
 	
+	// Endpoint para buscar estudiantes por curso, ademas se muestra la edad media de los resultados
 	@GetMapping("/filterStudentsByCourse")
 	public String filterStudentsByCourse(@RequestParam("course") String course, Model model) {
 	    List<Student> searchResults = studentRepository.filterStudentsByCourse(course);

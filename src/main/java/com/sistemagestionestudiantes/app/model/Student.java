@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
+// Clase de modelo para el estudiante
 public class Student {
 
 	@NotBlank(message = "El nombre no puede quedar vacio")
