@@ -34,7 +34,7 @@ public class StudentsController {
 		Double edadMedia = (double) (edades / students.size());
 		model.addAttribute("students", students);
 		model.addAttribute("edadMedia", edadMedia);
-		return "listStudents.html";
+		return "listStudents";
 	}
 	
 	// Endpoint que nos lleva a el formulario de estudiante y nos pone una instancia para nosotros
@@ -43,7 +43,7 @@ public class StudentsController {
 	public String formAddStudent(Model model) {
 		Student student = new Student();
 		model.addAttribute("student", student);
-		return "addStudent.html";
+		return "addStudent";
 	}
 	
 	// Endpoint que se activa una vez hacemos click en el boton de registrar usuario, en caso de que
@@ -62,15 +62,22 @@ public class StudentsController {
 	// los resultados
 	@GetMapping("/searchStudentsByName")
 	public String searchStudentsByName(@RequestParam("name") String name, Model model) {
+		
+		if(name.isBlank()) {
+			return "redirect:/listStudents";
+		}
+		
 	    List<Student> searchResults = studentRepository.findStudentsByName(name);
 	    Integer edades = 0;
 		for(Student s : searchResults) {
 			edades += s.getAge();
 		}
-		Double edadMedia = (double) (edades / searchResults.size());
+		if(searchResults.size() > 0) {
+			Double edadMedia = (double) (edades / searchResults.size());
+		    model.addAttribute("edadMedia", edadMedia);
+		}
 
 	    model.addAttribute("students", searchResults);
-	    model.addAttribute("edadMedia", edadMedia);
 
 	    return "listStudents"; 
 	}
@@ -83,10 +90,12 @@ public class StudentsController {
 		for(Student s : searchResults) {
 			edades += s.getAge();
 		}
-		Double edadMedia = (double) (edades / searchResults.size());
-
+		if(searchResults.size() > 0) {
+			Double edadMedia = (double) (edades / searchResults.size());
+		    model.addAttribute("edadMedia", edadMedia);
+		}
+		
 	    model.addAttribute("students", searchResults);
-	    model.addAttribute("edadMedia", edadMedia);
 
 	    return "listStudents"; 
 	}

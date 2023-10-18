@@ -57,9 +57,9 @@
 		<!-- th:unless es para decidir que pasa si no se cumple una condicion  -->
 		<span th:unless="${#lists.size(students) > 0}">No hay alumnos
 			que mostrar</span>
-		<h1>Promedio de las edades</h1>
+		<h1 th:if="${#lists.size(students) > 0}">Promedio de las edades</h1>
 		<!-- Uso th:text para inyectar en el span la edadMedia que he calculado en el controlador -->
-		<p>
+		<p th:if="${#lists.size(students) > 0}">
 			La edad media de los estudiantes es <span th:text="${edadMedia}"></span>
 			años
 		</p>
