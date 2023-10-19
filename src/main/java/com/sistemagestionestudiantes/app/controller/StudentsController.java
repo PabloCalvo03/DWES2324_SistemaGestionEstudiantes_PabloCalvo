@@ -24,7 +24,7 @@ public class StudentsController {
 	private StudentMockUpRepository studentRepository;
 	
 	// Endpoint para listar todos los estudiantes, ademas se muestra la edad media
-	@GetMapping("listStudents")
+	@GetMapping("/")
 	public String listStudents(Model model) {
 		List<Student> students = studentRepository.getAllStudents();
 		Integer edades = 0;
@@ -34,11 +34,16 @@ public class StudentsController {
 		Double edadMedia = (double) (edades / students.size());
 		model.addAttribute("students", students);
 		model.addAttribute("edadMedia", edadMedia);
-		return "listStudents";
+		return "index";
 	}
 	
-	// Endpoint que nos lleva a el formulario de estudiante y nos pone una instancia para nosotros
-	// modificarla mediante el formulario
+
+	/**
+	 * Endpoint que nos lleva a el formulario de estudiante y nos pone una instancia para nosotros modificarla mediante el formulario
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("formAddStudent")
 	public String formAddStudent(Model model) {
 		Student student = new Student();
@@ -46,15 +51,21 @@ public class StudentsController {
 		return "addStudent";
 	}
 	
-	// Endpoint que se activa una vez hacemos click en el boton de registrar usuario, en caso de que
-	// el usuario haya hecho algo mal se envian mensajes de error
-	@PostMapping("processFormAddStudent")
+
+	/**
+	 * Endpoint que se activa una vez hacemos click en el boton de registrar usuario, en caso de que el usuario haya hecho algo mal se envian mensajes de error
+	 * 
+	 * @param student
+	 * @param bindingResult
+	 * @return
+	 */
+	@PostMapping("formAddStudent")
 	public String  processFormAddStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return "addStudent";
 		}
 		studentRepository.registerStudent(student);
-		return "redirect:/listStudents";
+		return "redirect:/";
 	}
 	
 	// Endpoint para realizar la busqueda por nombre, sirve tambien si comienzas a escribir la P de Pablo,
@@ -64,7 +75,7 @@ public class StudentsController {
 	public String searchStudentsByName(@RequestParam("name") String name, Model model) {
 		
 		if(name.isBlank()) {
-			return "redirect:/listStudents";
+			return "redirect:/";
 		}
 		
 	    List<Student> searchResults = studentRepository.findStudentsByName(name);
@@ -79,7 +90,7 @@ public class StudentsController {
 
 	    model.addAttribute("students", searchResults);
 
-	    return "listStudents"; 
+	    return "index"; 
 	}
 	
 	// Endpoint para buscar estudiantes por curso, ademas se muestra la edad media de los resultados
@@ -97,7 +108,7 @@ public class StudentsController {
 		
 	    model.addAttribute("students", searchResults);
 
-	    return "listStudents"; 
+	    return "index"; 
 	}
 
 }

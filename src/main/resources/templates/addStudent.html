@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 		<h1>Agregar usuario</h1>
-		<form th:action="@{processFormAddStudent}" th:object="${student}" method="post" class="form">
+		<form th:action="@{formAddStudent}" th:object="${student}" method="post" class="form">
 		<label for="name">Nombre</label>
 		<input type="text" id="name" th:field="*{name}"
 							class="form-control col-sm-1">
