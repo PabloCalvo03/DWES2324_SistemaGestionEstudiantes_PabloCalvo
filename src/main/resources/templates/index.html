@@ -12,9 +12,11 @@
 <body>
 	<div class="container">
 		<h1>Lista de estudiantes registrados</h1>
+		<!-- Añadir un estudiante -->
 		<a th:href="@{formAddStudent}" class="btn btn-primary">Añadir
 			estudiante</a> <a th:href="@{/}" class="btn btn-success">Ver
 			todos los estudiantes</a>
+		<!-- Buscar estudiantes por nombre-->
 		<form th:action="@{/searchStudentsByName}" method="get">
 			<br>
 			<div class="form-group">
@@ -23,11 +25,13 @@
 			</div>
 			<button type="submit" class="btn btn-primary my-2">Buscar</button>
 		</form>
+		<!-- Filtrar estudiantes por curso-->
 		<form th:action="@{/filterStudentsByCourse}" method="get">
 			<br>
 			<div class="form-group">
 				<label for="name">Filtrar estudiante por curso:</label> <select
 					name="course" class="form-control">
+					<option value="all">Todos</option>
 					<option value="DAW1">DAW1</option>
 					<option value="DAW2">DAW2</option>
 				</select>
@@ -58,8 +62,8 @@
 		<span th:unless="${#lists.size(students) > 0}">No hay alumnos
 			que mostrar</span>
 		<h1 th:if="${#lists.size(students) > 0}">Promedio de las edades</h1>
-		<!-- Uso th:text para inyectar en el span la edadMedia que he calculado en el controlador -->
 		<p th:if="${#lists.size(students) > 0}">
+			<!-- Uso th:text para inyectar en el span la edadMedia que he calculado en el controlador -->
 			La edad media de los estudiantes es <span th:text="${edadMedia}"></span>
 			años
 		</p>

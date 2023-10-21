@@ -7,31 +7,56 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
-// Clase de modelo para el estudiante
+/**
+ * Clase que representa un estudiante
+ * 
+ * @author pablo
+ */
 public class Student {
 
+	/**
+	 * Nombre del estudiante con validacion
+	 */
 	@NotBlank(message = "El nombre no puede quedar vacio")
 	private String name;
 	
+	/**
+	 * Edad del estudiante con validaciones
+	 */
 	@NotNull(message = "La edad no puede quedar vacia")
 	@Positive(message = "Debes introducir un valor positivo")
 	@Min(value = 0, message = "La edad debe ser mayor o igual a 0")
     @Max(value = 100, message = "La edad debe ser menor o igual a 100")
 	private Integer age;
 	
+	/**
+	 * Curso del estudiante que solo admite dos valores DAW1 y DAW2
+	 */
     @Pattern(regexp = "^(DAW1|DAW2)$", message = "El campo curso no puede quedar vacio y solo admite los valores 'DAW1' o 'DAW2'")
 	private String course;
 
+    /**
+     * Constructor con parametros name, age y course
+     * 
+     * @param name
+     * @param age
+     * @param course
+     */
 	public Student(String name, Integer age, String course) {
 		this.name = name;
 		this.age = age;
 		this.course = course;
 	}
 
+	/**
+	 * Constructor sin parametros
+	 */
 	public Student() {
 		
 	}
 
+	// Getters y Setters
+	
 	public String getName() {
 		return name;
 	}

@@ -16,14 +16,26 @@ import com.sistemagestionestudiantes.app.repository.StudentMockUpRepository;
 
 import jakarta.validation.Valid;
 
+/**
+ * Clase de controlador de estudiantes
+ * 
+ * @author pablo
+ */
 @Controller
 public class StudentsController {
 	
-	// Inyeccion de dependencias de SpringBoot
+	/**
+	 * Repository de estudiantes con inyeccción de dependencias de SpringBoot
+	 */
 	@Autowired
 	private StudentMockUpRepository studentRepository;
 	
-	// Endpoint para listar todos los estudiantes, ademas se muestra la edad media
+	/**
+	 * Endpoint para listar todos los estudiantes, ademas se muestra la edad media
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/")
 	public String listStudents(Model model) {
 		List<Student> students = studentRepository.getAllStudents();
@@ -39,7 +51,8 @@ public class StudentsController {
 	
 
 	/**
-	 * Endpoint que nos lleva a el formulario de estudiante y nos pone una instancia para nosotros modificarla mediante el formulario
+	 * Endpoint que nos lleva a el formulario de estudiante y nos pone una instancia para nosotros
+	 * modificarla mediante el formulario
 	 * 
 	 * @param model
 	 * @return
@@ -53,7 +66,8 @@ public class StudentsController {
 	
 
 	/**
-	 * Endpoint que se activa una vez hacemos click en el boton de registrar usuario, en caso de que el usuario haya hecho algo mal se envian mensajes de error
+	 * Endpoint que se activa una vez hacemos click en el boton de registrar usuario, en caso de que
+	 * el usuario haya hecho algo mal se envian mensajes de error
 	 * 
 	 * @param student
 	 * @param bindingResult
@@ -68,9 +82,15 @@ public class StudentsController {
 		return "redirect:/";
 	}
 	
-	// Endpoint para realizar la busqueda por nombre, sirve tambien si comienzas a escribir la P de Pablo,
-	// por ejemplo ya que busca los estudiantes que empiezen por ahi, ademas se muestra la edad media de 
-	// los resultados
+	/**
+	 * Endpoint para realizar la busqueda por nombre, sirve tambien si comienzas a escribir la P de Pablo,
+	 * por ejemplo ya que busca los estudiantes que empiezen por el la cadena que se pase, ademas se muestra
+	 * la edad media de los resultados
+	 * 
+	 * @param name
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/searchStudentsByName")
 	public String searchStudentsByName(@RequestParam("name") String name, Model model) {
 		
@@ -93,9 +113,18 @@ public class StudentsController {
 	    return "index"; 
 	}
 	
-	// Endpoint para buscar estudiantes por curso, ademas se muestra la edad media de los resultados
+	/**
+	 * Endpoint para buscar estudiantes por curso, ademas se muestra la edad media de los resultados
+	 * 
+	 * @param course
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/filterStudentsByCourse")
 	public String filterStudentsByCourse(@RequestParam("course") String course, Model model) {
+		if(course.equals("all")) {
+			return "redirect:/";
+		}
 	    List<Student> searchResults = studentRepository.filterStudentsByCourse(course);
 	    Integer edades = 0;
 		for(Student s : searchResults) {
